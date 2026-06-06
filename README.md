@@ -1,4 +1,4 @@
-# autopilot-jobs
+# autopilot-jobhunt
 
 **Your AI job agent. Finds, scores, and drafts applications — while you sleep.**
 
@@ -6,10 +6,10 @@
 
 <!-- Add demo GIF here after recording: ![Demo](demo/demo.gif) -->
 
-[![PyPI version](https://img.shields.io/pypi/v/autopilot-jobs)](https://pypi.org/project/autopilot-jobs/)
+[![PyPI version](https://img.shields.io/pypi/v/autopilot-jobhunt)](https://pypi.org/project/autopilot-jobhunt/)
 [![Python 3.11+](https://img.shields.io/badge/python-3.11+-blue)](https://www.python.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
-[![GitHub Stars](https://img.shields.io/github/stars/tarunlnmiit/autopilot-jobs?style=social)](https://github.com/tarunlnmiit/autopilot-jobs/stargazers)
+[![GitHub Stars](https://img.shields.io/github/stars/tarunlnmiit/autopilot-jobhunt?style=social)](https://github.com/tarunlnmiit/autopilot-jobhunt/stargazers)
 
 **[📖 Full setup guide with Claude Code MCP integration → SETUP.md](SETUP.md)**
 
@@ -32,12 +32,28 @@ On demand:
 
 ---
 
+## Usage modes
+
+```
+Mode 1: Standalone CLI (no Claude Code required)
+  pip install autopilot-jobhunt
+  autopilot scan / autopilot draft 1 / autopilot export
+
+Mode 2: Claude Code MCP (control via natural language)
+  pip install 'autopilot-jobhunt[mcp]'
+  claude mcp add autopilot-jobhunt ...
+  → "Scan for ML jobs" / "Draft application for job #2"
+```
+
+Both modes use the same config and produce the same output.
+
 ## Quick start
 
 ```bash
-git clone https://github.com/tarunlnmiit/autopilot-jobs.git
-cd autopilot-jobs
-pip install -e '.[mcp]'
+git clone https://github.com/tarunlnmiit/autopilot-jobhunt.git
+cd autopilot-jobhunt
+pip install -e '.'               # standalone CLI
+# pip install -e '.[mcp]'       # + Claude Code MCP integration
 cp config.example.json config.json && cp .env.example .env
 # Fill in your API keys and candidate profile, then:
 autopilot scan
@@ -57,13 +73,13 @@ autopilot scan
 
 ## Claude Code / MCP integration
 
-Use autopilot-jobs as an MCP server inside **Claude Code** (CLI) or **Claude Desktop**.
+Use autopilot-jobhunt as an MCP server inside **Claude Code** (CLI) or **Claude Desktop**.
 
 ### Step 1: Install with MCP support
 
 ```bash
-git clone https://github.com/tarunlnmiit/autopilot-jobs.git
-cd autopilot-jobs
+git clone https://github.com/tarunlnmiit/autopilot-jobhunt.git
+cd autopilot-jobhunt
 pip install -e '.[mcp]'
 ```
 
@@ -72,7 +88,7 @@ pip install -e '.[mcp]'
 **Option A — one command:**
 
 ```bash
-claude mcp add autopilot-jobs \
+claude mcp add autopilot-jobhunt \
   --env TINYFISH_API_KEY=your_key \
   --env OPENROUTER_API_KEY=your_key \
   --env TELEGRAM_TOKEN=your_token \
@@ -85,10 +101,10 @@ claude mcp add autopilot-jobs \
 ```json
 {
   "mcpServers": {
-    "autopilot-jobs": {
+    "autopilot-jobhunt": {
       "command": "python",
       "args": ["-m", "job_hunt.mcp_server"],
-      "cwd": "/absolute/path/to/autopilot-jobs",
+      "cwd": "/absolute/path/to/autopilot-jobhunt",
       "env": {
         "TINYFISH_API_KEY": "your_key",
         "OPENROUTER_API_KEY": "your_key",
@@ -154,7 +170,7 @@ Set `min_score` in config to filter. Default: 60.
 ## Project structure
 
 ```
-autopilot-jobs/
+autopilot-jobhunt/
 ├── job_hunt/
 │   ├── main.py          # CLI entry point
 │   ├── scanner.py       # Job discovery + LLM scoring
@@ -174,9 +190,11 @@ autopilot-jobs/
 
 ---
 
-## LLM models used (all free)
+## LLM options
 
-The tool uses [OpenRouter](https://openrouter.ai) with a fallback chain of free models:
+### Default: OpenRouter (free)
+
+Uses a 4-model fallback chain — all free, no credit card needed:
 
 | Model | Role |
 |---|---|
@@ -185,7 +203,25 @@ The tool uses [OpenRouter](https://openrouter.ai) with a fallback chain of free 
 | `google/gemma-4-31b-it:free` | Fallback 2 |
 | `qwen/qwen3-coder:free` | Fallback 3 |
 
-If one model hits its daily free-tier quota, the tool automatically tries the next. **Zero LLM cost by default.** A nightly scan uses ~5–15 LLM calls total (jobs scored in batches).
+If one model hits its daily free-tier quota, the tool automatically tries the next. **Zero LLM cost by default.**
+
+### Alternative: Claude (Anthropic)
+
+If you have an Anthropic API key or Claude Pro:
+
+```bash
+pip install 'autopilot-jobhunt[claude]'
+```
+
+In `config.json`:
+
+```json
+"llm_provider": "anthropic",
+"anthropic_api_key": "sk-ant-...",
+"anthropic_model": "claude-haiku-4-5-20251001"
+```
+
+`claude-haiku-4-5-20251001` is fast and cheap; `claude-sonnet-4-6` gives higher quality scores. A nightly scan uses ~5–15 LLM calls total (jobs scored in batches of 10).
 
 ---
 
