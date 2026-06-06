@@ -19,7 +19,6 @@ from pathlib import Path
 
 from dotenv import load_dotenv
 
-
 _PLACEHOLDERS = {
     "YOUR_TINYFISH_API_KEY", "your_tinyfish_api_key_here",
     "YOUR_OPENROUTER_API_KEY", "your_openrouter_api_key_here",
