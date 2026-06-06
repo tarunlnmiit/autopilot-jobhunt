@@ -226,12 +226,20 @@ Run a smoke test that loads your config but makes **no API calls**:
 autopilot export
 ```
 
-✅ **Expected output:**
+✅ **Expected output (before first scan):**
 ```
 No scan results found. Run 'autopilot scan' first.
 ```
 
 If you see this, your install is working correctly — config loads, CLI is on your PATH, everything is wired up. The message just means you haven't run a scan yet.
+
+**After your first scan**, `autopilot export` produces a CSV like this:
+
+```
+Company,Role,Location,Application URL,Score (%),Stack,Region,Reason,Worth Applying,Scan Date
+Mistral AI,Applied AI Engineer ML Infrastructure,Paris/London/Marseille On-site,https://jobs.lever.co/mistral/...,85,"Python,LLMs,RAG,AWS,MLOps,DevOps",EU,Role combines applied AI + ML infrastructure in EU,True,2026-06-06
+HuggingFace,Staff ML Engineer,Remote (EU),https://apply.workable.com/huggingface/...,80,"Python,PyTorch,Transformers,CUDA,MLOps",EU,Open-source ML role matches deep learning background,True,2026-06-06
+```
 
 > [!NOTE]
 > If you see `autopilot: command not found`, re-run `pip install -e '.[mcp]'` from
@@ -357,19 +365,32 @@ Or, inside Claude Code:
 During the scan, you'll see progress like:
 
 ```
-[1/130] Stripe ... 3 jobs found
-[2/130] HuggingFace ... 7 jobs found
-[3/130] Mistral AI ... 2 jobs found
+Scanning Mistral AI...
+  3 new job URLs. Fetching details...
+  Scoring jobs...
+  Saved 2 jobs from Mistral AI
+
+Scanning HuggingFace...
+  5 new job URLs. Fetching details...
+  Scoring jobs...
+  Saved 3 jobs from HuggingFace
+
+Scanning Stripe...
+  No new jobs found
+
+Scanning Wise...
+  2 new job URLs. Fetching details...
+  Scoring jobs...
+  Saved 0 jobs from Wise
+
 ...
-Scoring 43 jobs with LLM...
-  ✓ Senior ML Engineer at Stripe — score: 88
-  ✓ Research Scientist at HuggingFace — score: 82
-  ✓ Staff ML Engineer at Spotify — score: 77
-  ✗ Data Analyst at Wise — score: 51 (below threshold)
-...
-Scan complete. 8 jobs saved (score ≥ 65).
+Scan complete.
 Top 5 sent to Telegram.
 ```
+
+> [!NOTE]
+> "Saved 0 jobs" means jobs were found but scored below your `min_score` threshold — not an error.
+> "No new jobs found" means TinyFish found no postings matching your search query for that company today.
 
 ---
 

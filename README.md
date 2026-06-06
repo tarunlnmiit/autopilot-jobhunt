@@ -4,7 +4,6 @@
 
 > Scans 130+ company careers pages nightly → scores every role against your resume with an LLM → sends you the top matches on Telegram → drafts a tailored resume + cover letter on demand.
 
-<!-- Add demo GIF here after recording: ![Demo](demo/demo.gif) -->
 
 [![PyPI version](https://img.shields.io/pypi/v/autopilot-jobhunt)](https://pypi.org/project/autopilot-jobhunt/)
 [![Python 3.11+](https://img.shields.io/badge/python-3.11+-blue)](https://www.python.org/)
@@ -12,6 +11,64 @@
 [![GitHub Stars](https://img.shields.io/github/stars/tarunlnmiit/autopilot-jobhunt?style=social)](https://github.com/tarunlnmiit/autopilot-jobhunt/stargazers)
 
 **[📖 Full setup guide with Claude Code MCP integration → SETUP.md](SETUP.md)**
+
+---
+
+## How it works
+
+```mermaid
+flowchart LR
+    A["🌐 130+ Careers Pages"] -->|TinyFish API| B["Job Discovery"]
+    B --> C["LLM Batch Scorer\n(0–100 fit score)"]
+    C -->|score ≥ min| D["📱 Telegram Alert\nTop N matches"]
+    C -->|on demand| E["✉️ Cover Letter\n+ Resume Bullets"]
+    C --> F["📊 CSV Export"]
+```
+
+**The scoring prompt uses your actual resume** — not keywords. The LLM reads your full work history and the job description, then explains in one sentence why you fit or don't. No more guessing.
+
+### What a scan result looks like
+
+```
+Scanning Mistral AI...
+  3 new job URLs. Fetching details...
+  Scoring jobs...
+  Saved 2 jobs from Mistral AI
+
+Scanning HuggingFace...
+  5 new job URLs. Fetching details...
+  Scoring jobs...
+  Saved 3 jobs from HuggingFace
+
+Scanning Stripe...
+  No new jobs found
+...
+Scan complete.
+Top 5 sent to Telegram.
+```
+
+### What the Telegram notification looks like
+
+```
+Job Hunt — 06 Jun 2026
+5 matches found
+
+#1 | Mistral AI | Applied AI Engineer, ML Infrastructure
+📍 Paris/London/Marseille, On-site
+🔧 Python, LLMs, RAG, AWS, MLOps, DevOps
+✅ Role combines applied AI + ML infrastructure in EU, aligns with MLOps/RAG expertise and relocation goal
+Score: 85/100  →  https://jobs.lever.co/mistral/...
+
+#2 | HuggingFace | Staff ML Engineer
+📍 Remote (EU)
+🔧 Python, PyTorch, Transformers, CUDA, MLOps
+✅ Open-source ML role matches deep learning and distributed training background
+Score: 80/100  →  https://apply.workable.com/huggingface/...
+
+...
+
+Reply "apply to #N" to draft a tailored application.
+```
 
 ---
 
@@ -27,8 +84,6 @@ Every night at 2:30 AM:
 On demand:
   autopilot draft 1  →  tailored resume + cover letter in 60s
 ```
-
-**The scoring prompt uses your actual resume** — not keywords. The LLM reads your full work history and the job description, then explains in one sentence why you fit or don't. No more guessing.
 
 ---
 
