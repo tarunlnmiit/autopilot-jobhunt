@@ -1,23 +1,17 @@
 """
 MCP server for autopilot-jobs.
 
-Add to your Claude config (~/.claude/claude.json or via Claude Desktop settings):
+Register with Claude Code (one command):
+  claude mcp add autopilot-jobs \\
+    --env TINYFISH_API_KEY=your_key \\
+    --env OPENROUTER_API_KEY=your_key \\
+    --env TELEGRAM_TOKEN=your_token \\
+    --env TELEGRAM_CHAT_ID=your_chat_id \\
+    -- python -m job_hunt.mcp_server
 
-  {
-    "mcpServers": {
-      "autopilot-jobs": {
-        "command": "python",
-        "args": ["-m", "job_hunt.mcp_server"],
-        "cwd": "/path/to/your/autopilot-jobs",
-        "env": {
-          "TINYFISH_API_KEY": "your_key",
-          "OPENROUTER_API_KEY": "your_key"
-        }
-      }
-    }
-  }
+Or add to ~/.claude.json manually — see README for full JSON block.
 
-Then in Claude: "Scan for ML jobs" / "Draft application for job #1" / "Export top jobs"
+cwd must be the cloned repo root (config.json and companies.json are read from there).
 """
 try:
     from mcp.server.fastmcp import FastMCP

@@ -105,15 +105,32 @@ bash setup_cron.sh
 
 ---
 
-## Claude / MCP integration
+## Claude Code / MCP integration
 
-Use autopilot-jobs directly inside Claude Code or Claude Desktop:
+Use autopilot-jobs as an MCP server inside **Claude Code** (CLI) or **Claude Desktop**.
+
+### Step 1: Install with MCP support
 
 ```bash
-pip install 'autopilot-jobs[mcp]'
+git clone https://github.com/tarunlnmiit/autopilot-jobs.git
+cd autopilot-jobs
+pip install -e '.[mcp]'
 ```
 
-Add to your Claude config:
+### Step 2: Register with Claude Code
+
+**Option A — one command:**
+
+```bash
+claude mcp add autopilot-jobs \
+  --env TINYFISH_API_KEY=your_key \
+  --env OPENROUTER_API_KEY=your_key \
+  --env TELEGRAM_TOKEN=your_token \
+  --env TELEGRAM_CHAT_ID=your_chat_id \
+  -- python -m job_hunt.mcp_server
+```
+
+**Option B — edit `~/.claude.json` manually:**
 
 ```json
 {
@@ -121,17 +138,33 @@ Add to your Claude config:
     "autopilot-jobs": {
       "command": "python",
       "args": ["-m", "job_hunt.mcp_server"],
-      "cwd": "/path/to/your/autopilot-jobs",
+      "cwd": "/absolute/path/to/autopilot-jobs",
       "env": {
         "TINYFISH_API_KEY": "your_key",
-        "OPENROUTER_API_KEY": "your_key"
+        "OPENROUTER_API_KEY": "your_key",
+        "TELEGRAM_TOKEN": "your_token",
+        "TELEGRAM_CHAT_ID": "your_chat_id"
       }
     }
   }
 }
 ```
 
-Then just say: *"Scan for ML jobs"* or *"Draft an application for job #2"*
+> **Note:** `cwd` must point to the cloned repo — the server reads `config.json` and `companies.json` from there.
+
+### Step 3: Use it
+
+In any Claude Code session:
+
+```
+"Scan for ML jobs"
+"Draft an application for job #2"
+"Export jobs from the last 7 days with score above 70"
+```
+
+### Claude Desktop
+
+Same JSON block — add it under `mcpServers` in Claude Desktop → Settings → Developer.
 
 ---
 
