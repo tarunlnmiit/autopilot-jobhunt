@@ -21,7 +21,7 @@ except ImportError:
         "Or: pip install mcp"
     )
 
-from job_hunt.tools import tool_scan, tool_draft, tool_export
+from job_hunt.tools import tool_draft, tool_export, tool_scan
 
 mcp = FastMCP("autopilot-jobs")
 
