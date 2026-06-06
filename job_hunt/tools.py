@@ -7,9 +7,9 @@ all import from here — one place to update, all adapters benefit.
 """
 from pathlib import Path
 
-from job_hunt.main import load_config, load_companies, export_jobs
-from job_hunt.scanner import run_scan
 from job_hunt.drafter import draft_application
+from job_hunt.main import export_jobs, load_companies, load_config
+from job_hunt.scanner import run_scan
 
 
 def tool_scan(config_path: str = "config.json", companies_path: str = "companies.json") -> str:
@@ -17,7 +17,8 @@ def tool_scan(config_path: str = "config.json", companies_path: str = "companies
     Discover new jobs, score them, send Telegram notification.
     Returns a summary string.
     """
-    import json, os
+    import json
+    import os
     old_cwd = Path.cwd()
     project_root = Path(config_path).parent.resolve()
     os.chdir(project_root)
@@ -48,7 +49,7 @@ def tool_draft(job_ref: str, config_path: str = "config.json") -> str:
     try:
         config = load_config()
         draft_application(config, job_ref)
-        return f"Application drafted in output/ directory."
+        return "Application drafted in output/ directory."
     finally:
         os.chdir(old_cwd)
 

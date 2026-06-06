@@ -4,11 +4,11 @@ import time
 from datetime import datetime, timezone
 from pathlib import Path
 
-from tinyfish import TinyFish, RateLimitError
 from openai import OpenAI
+from tinyfish import RateLimitError, TinyFish
 
-from job_hunt.notifier import send_telegram
 from job_hunt.llm_utils import chat_with_fallback
+from job_hunt.notifier import send_telegram
 
 STATE_FILE = Path("state/seen_jobs.json")
 LAST_SCAN_FILE = Path("state/last_scan.json")
@@ -118,7 +118,7 @@ def _fetch_with_ratelimit(
             time.sleep(len(urls) * _FETCH_URL_DELAY)
             return resp
         except RateLimitError:
-            print(f"  fetch rate-limited, waiting 65s...")
+            print("  fetch rate-limited, waiting 65s...")
             time.sleep(65)
         except Exception as e:
             print(f"  fetch error: {e}")
@@ -155,17 +155,17 @@ def discover_job_urls(
     if resp:
         if resp.results:
             links = resp.results[0].links
-            direct = [l for l in links if is_job_url(l) and l not in seen_urls]
-            ats_pages = list({l for l in links if is_ats_listing(l)})
+            direct = [link for link in links if is_job_url(link) and link not in seen_urls]
+            ats_pages = list({link for link in links if is_ats_listing(link)})
             found_urls.update(direct)
 
             # --- Step 2: Expand ATS listing pages ---
             if ats_pages:
                 ats_link_map = _fetch_links(tf, ats_pages[:5])
                 for page_links in ats_link_map.values():
-                    for l in page_links:
-                        if is_job_url(l) and l not in seen_urls:
-                            found_urls.add(l)
+                    for link in page_links:
+                        if is_job_url(link) and link not in seen_urls:
+                            found_urls.add(link)
 
     # --- Step 3: Search for indexed job pages (rate-limited: 5/min) ---
     query = SEARCH_QUERY.format(domain=company["search_domain"])
@@ -319,14 +319,14 @@ def run_scan(config: dict, companies: list[dict]) -> None:
         try:
             new_jobs = discover_job_urls(tf, company, seen_urls)
             if not new_jobs:
-                print(f"  No new jobs found")
+                print("  No new jobs found")
                 continue
 
             print(f"  {len(new_jobs)} new job URLs. Fetching details...")
             new_jobs = fetch_job_details(tf, new_jobs)
             seen_urls.update(j["url"] for j in new_jobs)
 
-            print(f"  Scoring jobs...")
+            print("  Scoring jobs...")
             scored: list[dict] = []
             try:
                 for i in range(0, len(new_jobs), 10):

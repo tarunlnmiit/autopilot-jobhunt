@@ -3,8 +3,8 @@ import re
 from datetime import datetime
 from pathlib import Path
 
-from tinyfish import TinyFish
 from openai import OpenAI
+from tinyfish import TinyFish
 
 from job_hunt.llm_utils import chat_with_fallback
 
