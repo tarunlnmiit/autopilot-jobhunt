@@ -11,6 +11,8 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![GitHub Stars](https://img.shields.io/github/stars/tarunlnmiit/autopilot-jobs?style=social)](https://github.com/tarunlnmiit/autopilot-jobs/stargazers)
 
+**[📖 Full setup guide with Claude Code MCP integration → SETUP.md](SETUP.md)**
+
 ---
 
 ## What it does
@@ -32,76 +34,24 @@ On demand:
 
 ## Quick start
 
-### 1. Install
-
 ```bash
-pip install autopilot-jobs
-# or clone and install locally:
 git clone https://github.com/tarunlnmiit/autopilot-jobs.git
 cd autopilot-jobs
-pip install -e .
-```
-
-### 2. Get API keys
-
-| Service | Cost | Link |
-|---|---|---|
-| **TinyFish** | Free tier available | [agent.tinyfish.ai](https://agent.tinyfish.ai) |
-| **OpenRouter** | Free tier (multiple models) | [openrouter.ai](https://openrouter.ai) |
-| **Telegram bot** | Free | [@BotFather](https://t.me/BotFather) on Telegram |
-
-### 3. Configure
-
-```bash
-cp .env.example .env
-# Edit .env with your API keys
-
-cp config.example.json config.json
-# Edit config.json with your candidate profile
-# config.json is gitignored — safe to put real values here
-```
-
-Key fields in `config.json`:
-
-```json
-{
-  "candidate": {
-    "name": "Your Name",
-    "resume_path": "resume/YOUR_RESUME.md",
-    "profile": "8 YOE Senior ML Engineer. Python, LLMs, AWS, MLOps.",
-    "seeking": "Remote-friendly EU or NA roles",
-    "min_score": 65,
-    "top_n": 5
-  }
-}
-```
-
-### 4. Add your resume
-
-Replace the template at `resume/YOUR_RESUME.md` with your own resume in Markdown format.
-
-### 5. Run
-
-```bash
-# One-off scan
+pip install -e '.[mcp]'
+cp config.example.json config.json && cp .env.example .env
+# Fill in your API keys and candidate profile, then:
 autopilot scan
-
-# Draft application for job #1 from last scan
-autopilot draft 1
-
-# Draft for a specific URL
-autopilot draft https://company.com/jobs/senior-ml-engineer
-
-# Export last scan to CSV
-autopilot export --min 70
 ```
 
-### 6. Automate (optional)
+**For the full walkthrough** — API key setup, Claude Code MCP registration, rate limit details, and troubleshooting — see **[SETUP.md](SETUP.md)**.
 
-```bash
-bash setup_cron.sh
-# Runs autopilot scan every day at 2:30 AM
-```
+### API keys needed
+
+| Service | Cost | Where to get it |
+|---|---|---|
+| **TinyFish** | **Free** — no credit card | [agent.tinyfish.ai](https://agent.tinyfish.ai) |
+| **OpenRouter** | **Free** — 4-model fallback chain | [openrouter.ai](https://openrouter.ai) |
+| **Telegram** | Free — optional | [@BotFather](https://t.me/BotFather) on Telegram |
 
 ---
 
@@ -228,12 +178,14 @@ autopilot-jobs/
 
 The tool uses [OpenRouter](https://openrouter.ai) with a fallback chain of free models:
 
-1. `meta-llama/llama-3.3-70b-instruct:free` (primary)
-2. `deepseek/deepseek-r1:free`
-3. `google/gemma-2-27b-it:free`
-4. `mistralai/mistral-7b-instruct:free`
+| Model | Role |
+|---|---|
+| `meta-llama/llama-3.3-70b-instruct:free` | Primary — best quality |
+| `deepseek/deepseek-r1:free` | Fallback 1 |
+| `google/gemma-2-27b-it:free` | Fallback 2 |
+| `mistralai/mistral-7b-instruct:free` | Fallback 3 — most available |
 
-If one model rate-limits, it automatically falls back to the next. **Zero LLM cost by default.**
+If one model hits its daily free-tier quota, the tool automatically tries the next. **Zero LLM cost by default.** A nightly scan uses ~5–15 LLM calls total (jobs scored in batches).
 
 ---
 
