@@ -181,9 +181,9 @@ The tool uses [OpenRouter](https://openrouter.ai) with a fallback chain of free 
 | Model | Role |
 |---|---|
 | `meta-llama/llama-3.3-70b-instruct:free` | Primary — best quality |
-| `deepseek/deepseek-r1:free` | Fallback 1 |
-| `google/gemma-2-27b-it:free` | Fallback 2 |
-| `mistralai/mistral-7b-instruct:free` | Fallback 3 — most available |
+| `nvidia/nemotron-3-super-120b-a12b:free` | Fallback 1 — 120B |
+| `google/gemma-4-31b-it:free` | Fallback 2 |
+| `qwen/qwen3-coder:free` | Fallback 3 |
 
 If one model hits its daily free-tier quota, the tool automatically tries the next. **Zero LLM cost by default.** A nightly scan uses ~5–15 LLM calls total (jobs scored in batches).
 

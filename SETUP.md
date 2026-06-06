@@ -55,9 +55,9 @@ autopilot-jobs uses a 4-model fallback chain — all free:
 | Model | Role | Characteristic |
 |---|---|---|
 | `meta-llama/llama-3.3-70b-instruct` | Primary | Best scoring quality |
-| `deepseek/deepseek-r1` | Fallback 1 | Strong reasoning |
-| `google/gemma-2-27b-it` | Fallback 2 | Reliable, fast |
-| `mistralai/mistral-7b-instruct` | Fallback 3 | Highest availability |
+| `nvidia/nemotron-3-super-120b-a12b` | Fallback 1 | 120B — strong reasoning |
+| `google/gemma-4-31b-it` | Fallback 2 | Reliable, fast |
+| `qwen/qwen3-coder` | Fallback 3 | Good at structured output |
 
 If the primary model hits its daily free quota, the tool automatically tries the next one — no action needed from you.
 
