@@ -12,6 +12,7 @@
 [![Python 3.11+](https://img.shields.io/badge/python-3.11+-blue)](https://www.python.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![GitHub Stars](https://img.shields.io/github/stars/tarunlnmiit/autopilot-jobhunt?style=social)](https://github.com/tarunlnmiit/autopilot-jobhunt/stargazers)
+[![autopilot-jobhunt MCP server](https://glama.ai/mcp/servers/tarunlnmiit/autopilot-jobhunt/badges/score.svg)](https://glama.ai/mcp/servers/tarunlnmiit/autopilot-jobhunt)
 
 **[📖 Full setup guide with Claude Code MCP integration → SETUP.md](SETUP.md)**
 
