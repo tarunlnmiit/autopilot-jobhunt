@@ -9,18 +9,32 @@ reconstructed from git history.
 
 ## [Unreleased]
 
+## [0.4.1] — 2026-07-03
+
 ### Added
 - CI hardening: Python 3.13 in the test matrix, pip caching, and a `gitleaks`
   secret-scan job.
 - Formal test scaffold: `pytest.ini` and a shared `conftest.py` (`fake_llm`,
   `clean_env`, `sample_config`, `sample_job` fixtures).
+- Coverage gate (`--cov=job_hunt`, `fail_under = 85`) plus a mocked test suite
+  raising coverage from ~36% to ~90%.
+- `mypy` type checking with `job_hunt/` fully annotated; enforced in CI.
 - GitHub issue templates (bug report, feature request).
 - `skills/autopilot-jobhunt/SKILL.md` — a Claude Code usage skill that drives the hunt
   via the MCP tools.
 - MCP registry manifests: `server.json` (official MCP Registry) and `smithery.yaml`.
 - `autopilot mcp` subcommand to launch the stdio MCP server from the installed console
   script.
+- `autopilot-jobhunt` console-script alias (== the PyPI distribution name) so
+  MCP-registry runners that derive the command from the package name resolve
+  correctly.
+- `docs/` guide set: install, providers, API keys, scanning, integrations, MCP,
+  config/scoring, troubleshooting, and a testing checklist.
 - `SECURITY.md`, `PRIVACY.md`, and this `CHANGELOG.md`.
+
+### Fixed
+- `job_hunt/__init__.py` `__version__` corrected from a stale `0.1.0` to track the
+  packaged version.
 
 ## [0.4.0]
 
