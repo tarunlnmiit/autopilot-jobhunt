@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: ["3.11", "3.12"]
+        python-version: ["3.11", "3.12", "3.13"]
 
     steps:
       - uses: actions/checkout@v4
@@ -20,6 +20,7 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
+          cache: pip
 
       - name: Install dependencies
         run: |
@@ -30,6 +31,20 @@ jobs:
 
       - name: Import smoke test
         run: python -c "from job_hunt.main import load_config; print('imports OK')"
+
+  # Secret scan: prove no credential ever lands in a PR or in history.
+  # .env / config.json / API keys / resume PII are gitignored, but a public repo
+  # should verify, not assume.
+  secret-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: gitleaks
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   publish:
     if: startsWith(github.ref, 'refs/tags/v')
