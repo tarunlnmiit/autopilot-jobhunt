@@ -1,0 +1,34 @@
+# Smithery deployment config — https://smithery.ai/docs
+# Runs the autopilot-jobhunt MCP server over stdio. The server reads config.json /
+# companies.json from its working directory; the env below overrides / supplies keys.
+startCommand:
+  type: stdio
+  configSchema:
+    type: object
+    properties:
+      TINYFISH_API_KEY:
+        type: string
+        description: "TinyFish API key — required for scanning and drafting (page fetch)."
+      LLM_PROVIDER:
+        type: string
+        description: "LLM backend (openrouter | anthropic | claude_cli)."
+        default: "openrouter"
+      OPENROUTER_API_KEY:
+        type: string
+        description: "OpenRouter API key (used when LLM_PROVIDER=openrouter)."
+      ANTHROPIC_API_KEY:
+        type: string
+        description: "Anthropic API key (used when LLM_PROVIDER=anthropic)."
+      TELEGRAM_TOKEN:
+        type: string
+        description: "Telegram bot token for scan notifications (optional)."
+      TELEGRAM_CHAT_ID:
+        type: string
+        description: "Telegram chat id for scan notifications (optional)."
+    additionalProperties: true
+  commandFunction: |-
+    (config) => ({
+      command: 'python',
+      args: ['-m', 'job_hunt.mcp_server'],
+      env: config
+    })
