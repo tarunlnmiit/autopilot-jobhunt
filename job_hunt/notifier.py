@@ -1,4 +1,5 @@
 import urllib.parse
+from typing import Any
 
 import requests
 
@@ -20,7 +21,7 @@ def send_whatsapp(phone: str, apikey: str, message: str) -> bool:
 
 def send_telegram(bot_token: str, chat_id: str, message: str) -> bool:
     url = f"https://api.telegram.org/bot{bot_token}/sendMessage"
-    payload = {"chat_id": chat_id, "text": message, "parse_mode": "HTML"}
+    payload: dict[str, Any] = {"chat_id": chat_id, "text": message, "parse_mode": "HTML"}
     try:
         resp = requests.post(url, json=payload, timeout=15)
         if resp.status_code == 200:

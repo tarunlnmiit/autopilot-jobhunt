@@ -2,6 +2,7 @@ import json
 import os
 import subprocess
 import time
+from typing import Any, cast
 
 from openai import OpenAI, RateLimitError
 
@@ -143,7 +144,7 @@ def chat_with_fallback(
                 t0 = time.time()
                 resp = llm.chat.completions.create(
                     model=model,
-                    messages=messages,
+                    messages=cast("Any", messages),
                     temperature=temperature,
                     max_tokens=max_tokens,
                 )

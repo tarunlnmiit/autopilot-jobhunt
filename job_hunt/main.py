@@ -38,7 +38,9 @@ def _use_env(val: str | None) -> bool:
     init` writes with `your_..._here` values) would clobber real keys in
     config.json — the classic "config.json and .env don't compose" bug.
     """
-    return bool(val) and not _is_placeholder(val)
+    if not val:
+        return False
+    return not _is_placeholder(val)
 
 
 def load_config() -> dict:
@@ -62,7 +64,7 @@ def load_config() -> dict:
 
     for env_key, config_key in env_mapping.items():
         val = os.getenv(env_key)
-        if _use_env(val):
+        if val is not None and _use_env(val):
             if env_key == "OPENROUTER_FALLBACK_MODELS":
                 config[config_key] = [m.strip() for m in val.split(",")]
             else:

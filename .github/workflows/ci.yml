@@ -29,6 +29,9 @@ jobs:
       - name: Lint with ruff
         run: ruff check job_hunt/
 
+      - name: Type check (mypy)
+        run: mypy
+
       - name: Import smoke test
         run: python -c "from job_hunt.main import load_config; print('imports OK')"
 
