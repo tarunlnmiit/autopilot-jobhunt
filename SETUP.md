@@ -374,6 +374,11 @@ claude mcp add autopilot-jobhunt \
 
 > [!NOTE]
 > If skipping Telegram, omit the last two `--env` lines.
+>
+> `python -m job_hunt.mcp_server` and `autopilot mcp` are equivalent entry points.
+> From a pip install, `autopilot mcp` is simplest; from a source checkout, the
+> `python -m` form works without the console script on `PATH`. See
+> [docs/06 — MCP server & Skill](docs/06-mcp-and-skill.md).
 
 **Option B: edit `~/.claude.json` directly**
 

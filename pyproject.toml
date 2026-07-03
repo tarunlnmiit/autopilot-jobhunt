@@ -30,6 +30,10 @@ dev = ["pytest>=8.0", "pytest-cov>=4.0", "ruff>=0.4", "mypy>=1.8", "mcp>=1.0.0"]
 
 [project.scripts]
 autopilot = "job_hunt.main:main"
+# Alias matching the PyPI distribution name so MCP-registry runners that derive
+# the executable from the package name (e.g. `uvx autopilot-jobhunt mcp`, per
+# server.json packageArguments) resolve to a real command.
+autopilot-jobhunt = "job_hunt.main:main"
 
 [project.urls]
 Homepage = "https://github.com/tarunlnmiit/autopilot-jobhunt"
