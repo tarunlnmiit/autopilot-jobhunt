@@ -32,6 +32,10 @@ jobs:
       - name: Import smoke test
         run: python -c "from job_hunt.main import load_config; print('imports OK')"
 
+      - name: Run tests
+        # --cov-fail-under gate (85%) is configured in pyproject [tool.coverage.report].
+        run: pytest --cov=job_hunt --cov-report=term-missing
+
   # Secret scan: prove no credential ever lands in a PR or in history.
   # .env / config.json / API keys / resume PII are gitignored, but a public repo
   # should verify, not assume.

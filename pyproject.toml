@@ -26,7 +26,7 @@ dependencies = [
 [project.optional-dependencies]
 mcp = ["mcp>=1.0.0"]
 claude = ["anthropic>=0.30.0"]
-dev = ["pytest>=8.0", "ruff>=0.4"]
+dev = ["pytest>=8.0", "pytest-cov>=4.0", "ruff>=0.4", "mcp>=1.0.0"]
 
 [project.scripts]
 autopilot = "job_hunt.main:main"
@@ -47,3 +47,10 @@ ignore = ["E501"]
 [tool.hatch.build.targets.wheel]
 packages = ["job_hunt"]
 include = ["job_hunt/data/**"]
+
+[tool.coverage.run]
+source = ["job_hunt"]
+
+[tool.coverage.report]
+# The mocked suite must not silently regress. Gate sits below the current ~90%.
+fail_under = 85
