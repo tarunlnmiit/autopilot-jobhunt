@@ -9,6 +9,17 @@ reconstructed from git history.
 
 ## [Unreleased]
 
+## [0.4.2] — 2026-07-05
+
+> Note: 0.4.1 was recorded here but never uploaded to PyPI (latest there was 0.4.0);
+> 0.4.2 supersedes it everywhere (PyPI, MCP registries).
+
+### Added
+- PEP 561 `py.typed` marker + `Typing :: Typed` and explicit Python 3.11/3.12/3.13
+  classifiers on PyPI.
+- `.github/PULL_REQUEST_TEMPLATE.md` — checklist including the drafts-only invariant.
+- README: `mcp-name` ownership marker (Official MCP Registry) and registry-status line.
+
 ## [0.4.1] — 2026-07-03
 
 ### Added

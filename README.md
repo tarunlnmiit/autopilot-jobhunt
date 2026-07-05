@@ -1,5 +1,7 @@
 # autopilot-jobhunt
 
+<!-- mcp-name: io.github.tarunlnmiit/autopilot-jobhunt -->
+
 **Your AI job agent. Finds, scores, and drafts applications — while you sleep.**
 
 > Scans 130+ company careers pages nightly → scores every role against your resume with an LLM → sends you the top matches on Telegram → drafts a tailored resume + cover letter on demand.
@@ -18,6 +20,8 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![GitHub Stars](https://img.shields.io/github/stars/tarunlnmiit/autopilot-jobhunt?style=social)](https://github.com/tarunlnmiit/autopilot-jobhunt/stargazers)
 [![autopilot-jobhunt MCP server](https://glama.ai/mcp/servers/tarunlnmiit/autopilot-jobhunt/badges/score.svg)](https://glama.ai/mcp/servers/tarunlnmiit/autopilot-jobhunt)
+
+Published on [PyPI](https://pypi.org/project/autopilot-jobhunt/) and listed on [Glama](https://glama.ai/mcp/servers/tarunlnmiit/autopilot-jobhunt) (Quality A). Registry manifests (`server.json`, `glama.json`) ship in the repo.
 
 **[📖 Full setup guide with Claude Code MCP integration → SETUP.md](SETUP.md)**
 
