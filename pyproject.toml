@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "autopilot-jobhunt"
-version = "0.4.2"
+version = "0.4.3"
 description = "AI-powered job scanner, scorer, and application drafter. Finds jobs while you sleep."
 readme = "README.md"
 license = { text = "MIT" }
@@ -28,9 +28,9 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-mcp = ["mcp>=1.0.0"]
+mcp = ["mcp>=1.9"]
 claude = ["anthropic>=0.30.0"]
-dev = ["pytest>=8.0", "pytest-cov>=4.0", "ruff>=0.4", "mypy>=1.8", "mcp>=1.0.0"]
+dev = ["pytest>=8.0", "pytest-cov>=4.0", "ruff>=0.4", "mypy>=1.8", "mcp>=1.9"]
 
 [project.scripts]
 autopilot = "job_hunt.main:main"

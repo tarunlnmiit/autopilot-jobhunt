@@ -13,20 +13,33 @@ Or add to ~/.claude.json manually — see README for full JSON block.
 
 cwd must be the cloned repo root (config.json and companies.json are read from there).
 """
+from typing import Annotated
+
 try:
     from mcp.server.fastmcp import FastMCP
+    from mcp.types import ToolAnnotations
 except ImportError:
     raise ImportError(
         "MCP SDK not installed. Run: pip install 'autopilot-jobs[mcp]'\n"
         "Or: pip install mcp"
     )
 
+from pydantic import Field
+
 from job_hunt.tools import tool_draft, tool_export, tool_scan
 
 mcp = FastMCP("autopilot-jobs")
 
 
-@mcp.tool()
+@mcp.tool(
+    annotations=ToolAnnotations(
+        title="Scan & score job postings",
+        readOnlyHint=False,
+        destructiveHint=False,
+        idempotentHint=False,
+        openWorldHint=True,
+    )
+)
 def scan_jobs() -> str:
     """
     Scan all configured company careers pages for new job postings,
@@ -37,27 +50,52 @@ def scan_jobs() -> str:
     return tool_scan()
 
 
-@mcp.tool()
-def draft_application(job_ref: str) -> str:
+@mcp.tool(
+    annotations=ToolAnnotations(
+        title="Draft application (never applies)",
+        readOnlyHint=False,
+        destructiveHint=False,
+        idempotentHint=False,
+        openWorldHint=True,
+    )
+)
+def draft_application(
+    job_ref: Annotated[
+        str,
+        Field(
+            description="Job reference: '#1' or '1' (index from the last scan), "
+            "or a full job posting URL."
+        ),
+    ],
+) -> str:
     """
     Draft a tailored resume and cover letter for a specific job.
 
-    Args:
-        job_ref: Job reference — '#1' or '1' (from last scan), or a full job URL.
-
+    Never applies — every draft is saved for human review and manual submission.
     Returns a summary of where the output files were saved.
     """
     return tool_draft(job_ref)
 
 
-@mcp.tool()
-def export_jobs(min_score: int = 0, days: int = 0) -> str:
+@mcp.tool(
+    annotations=ToolAnnotations(
+        title="Export jobs to CSV",
+        readOnlyHint=False,
+        destructiveHint=False,
+        idempotentHint=True,
+        openWorldHint=False,
+    )
+)
+def export_jobs(
+    min_score: Annotated[
+        int, Field(description="Only include jobs with fit score >= this value (0 = all).")
+    ] = 0,
+    days: Annotated[
+        int, Field(description="Export from the last N days of history (0 = last scan only).")
+    ] = 0,
+) -> str:
     """
     Export job scan results to a CSV file in the output/ directory.
-
-    Args:
-        min_score: Only include jobs with score >= this value (0 = all).
-        days: Export from the last N days of history (0 = last scan only).
 
     Returns a summary of the export.
     """

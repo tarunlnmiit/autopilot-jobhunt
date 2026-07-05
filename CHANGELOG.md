@@ -9,6 +9,17 @@ reconstructed from git history.
 
 ## [Unreleased]
 
+## [0.4.3] — 2026-07-05
+
+### Added
+- MCP tools now ship full metadata: per-tool `ToolAnnotations` (title, readOnly/
+  destructive/idempotent/openWorld hints), per-parameter descriptions via
+  `Annotated[..., Field(...)]`, and structured output schemas (FastMCP auto).
+  Improves registry quality scoring and host UX.
+
+### Changed
+- `mcp` extra now requires `mcp>=1.9` (ToolAnnotations support).
+
 ## [0.4.2] — 2026-07-05
 
 > Note: 0.4.1 was recorded here but never uploaded to PyPI (latest there was 0.4.0);
