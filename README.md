@@ -21,7 +21,7 @@
 [![GitHub Stars](https://img.shields.io/github/stars/tarunlnmiit/autopilot-jobhunt?style=social)](https://github.com/tarunlnmiit/autopilot-jobhunt/stargazers)
 [![autopilot-jobhunt MCP server](https://glama.ai/mcp/servers/tarunlnmiit/autopilot-jobhunt/badges/score.svg)](https://glama.ai/mcp/servers/tarunlnmiit/autopilot-jobhunt)
 
-Published on [PyPI](https://pypi.org/project/autopilot-jobhunt/) and listed on [Glama](https://glama.ai/mcp/servers/tarunlnmiit/autopilot-jobhunt) (Quality A). Registry manifests (`server.json`, `glama.json`) ship in the repo.
+Published on [PyPI](https://pypi.org/project/autopilot-jobhunt/) and listed on the [Official MCP Registry](https://registry.modelcontextprotocol.io) (`io.github.tarunlnmiit/autopilot-jobhunt`), [Glama](https://glama.ai/mcp/servers/tarunlnmiit/autopilot-jobhunt) (Quality A), and [Smithery](https://smithery.ai/servers/tarungupta-y12/autopilot-jobhunt) (MCPB bundle).
 
 **[📖 Full setup guide with Claude Code MCP integration → SETUP.md](SETUP.md)**
 
