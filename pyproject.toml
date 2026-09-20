@@ -28,9 +28,9 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-mcp = ["mcp>=1.9,<2"]
+mcp = ["mcp>=1.9,<3"]
 claude = ["anthropic>=0.30.0"]
-dev = ["pytest>=8.0", "pytest-cov>=4.0", "ruff>=0.4", "mypy>=1.8", "mcp>=1.9,<2"]
+dev = ["pytest>=8.0", "pytest-cov>=4.0", "ruff>=0.4", "mypy>=1.8", "mcp>=1.9,<3"]
 
 [project.scripts]
 autopilot = "job_hunt.main:main"
